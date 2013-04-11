@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+  <Product Name='Basic App 1.0' Id='B109A3DB-85C7-4930-9F39-4913298FBB0A' UpgradeCode='5E9629F7-2299-4CB2-9DE9-5DBB46C1A8E3'
+    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='Trifort'>
+
+    <Package Id='*' Keywords='Installer' Description="Basic App 1.0 Installer"
+      Comments='Basic App is a registered trademark of Trifort' Manufacturer='Trifort'
+      InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+	  
+	<Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
+    <Property Id='DiskPrompt' Value="Trifort's Basic App 1.0 Installation [1]" />
+	
+	<Directory Id='TARGETDIR' Name='SourceDir'>
+	
+	<Directory Id='ProgramFilesFolder' Name='PFiles'>
+      <Directory Id='Trifort' Name='Trifort'>
+        <Directory Id='INSTALLDIR' Name='Basic App 1.0'>
+		  
+	      <Component Id='MainExecutable' Guid='3948E0F1-BF20-4620-81D8-EE5867C4F96F'>
+		    <File Id='FoobarEXE' Name='BasicApp10.exe' DiskId='1' Source='BasicApp10.exe' KeyPath='yes'>
+			
+			  <Shortcut Id="startmenuBasic10" Directory="ProgramMenuDir" Name="Basic 1.0"
+                WorkingDirectory='INSTALLDIR' Icon="Basic10.exe" IconIndex="0" Advertise="yes" />
+              <Shortcut Id="desktopFoobar10" Directory="DesktopFolder" Name="Basic 1.0"
+                WorkingDirectory='INSTALLDIR' Icon="Basic10.exe" IconIndex="0" Advertise="yes" />
+            </File>
+          </Component>
+		</Directory>
+      </Directory>
+    </Directory>
+
+    <Directory Id="ProgramMenuFolder" Name="Programs">
+      <Directory Id="ProgramMenuDir" Name="Basic 1.0">
+        <Component Id="ProgramMenuDir" Guid="4AF05ECC-CEEA-4221-B584-61A6657C1E15">
+          <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+        </Component>
+      </Directory>
+    </Directory>
+
+    <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+	
+	<Feature Id='Complete' Level='1'>
+      <ComponentRef Id='MainExecutable' />
+      <ComponentRef Id='HelperLibrary' />
+      <ComponentRef Id='Manual' />
+      <ComponentRef Id='ProgramMenuDir' />
+    </Feature>
+	
+	<Icon Id="Basic10.exe" SourceFile="BasicAppl10.exe" />
+	<Shortcut Id="desktopFoobar10" Directory="DesktopFolder" Name="Basic 1.0" WorkingDirectory='INSTALLDIR' Icon="Basic10.ico" IconIndex="0" />
+    <Icon Id="Basic10.ico" SourceFile="BasicAppl10.ico" />
+  </Product>
+</Wix>
