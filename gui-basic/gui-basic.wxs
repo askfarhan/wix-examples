@@ -1,37 +1,23 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
-  <!-- There is one product. It needs a name, Id (GUID) and UpgradCode (GUID).
-       The name is what will show up in the default installer screen and the
-       uninstall programs dialog box. Make sure you put an upgrade code in and 
-       keep it safe. If you distribute an msi without one or you forget what it 
-       is, you cannot upgrade software on clients' systems. Language and Codepage
-       are for internationalization of langauge in the installer. Version and 
-       Manufacturer are self explanatory. -->
   <Product Name='HelloWorldApp' Id='B109A3DB-85C7-4930-9F39-4913298FBB0A' 
     UpgradeCode='5E9629F7-2299-4CB2-9DE9-5DBB46C1A8E3' Language='1033' 
     Codepage='1252' Version='1.0.0' Manufacturer='DOPL'>
 
     <Package Id='*' Keywords='Installer' Description="HelloWorld App Installer"
-      Comments='Basic App is a registered trademark of DOPL' Manufacturer='DOPL'
+      Comments='HelloWorldApp is a registered trademark of DOPL' Manufacturer='DOPL'
       InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
 	
       <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
-      <Property Id='DiskPrompt' Value="DOPL BasicApp 1.0 Installation [1]" />
+      <Property Id='DiskPrompt' Value="DOPL HelloWorld 1.0 Installation [1]" />
 	
-      <!-- sets up the link from the source to the target -->
       <Directory Id='TARGETDIR' Name='SourceDir'>
 	
-        <!-- These directory tags setup the folder to install into. They 
-          specify "C:\Program Files\DOPL\HelloWorldApp_1.0\". HelloWorldApp_1.0 
-          is taken from the below INSTALLDIR Name. -->
         <Directory Id='ProgramFilesFolder' Name='PFiles'>
           <Directory Id='DOPL' Name='DOPL'>
-            <!-- the name under INSTALLDIR specifies the application install folder -->
             <Directory Id='INSTALLDIR' Name='HelloWorldApp_1.0'>
-              <Component Id='MainExecutable' Guid='3948E0F1-BF20-4620-81D8-EE5867C4F96F'>              
-                <!-- Here the name specifies the install name and the source
-                  specifies the source name from SourceDir -->
+              <Component Id='MainExecutable' Guid='3948E0F1-BF20-4620-81D8-EE5867C4F96F'>   
                 <File Id='HelloWorldAppEXE' Name='HelloWorld.exe' DiskId='1' 
                   Source='helloworld.exe' KeyPath='yes'>
 
@@ -61,11 +47,28 @@
 	  
     </Directory>
 	
-	  <Feature Id='Complete' Level='1'>
+    <Feature Id='Complete' Title='HelloWorldApp 1.0' 
+      Description='The complete package.' Display='expand' Level='1'
+      ConfigurableDirectory='INSTALLDIR'>
+	  
       <ComponentRef Id='MainExecutable' />
       <ComponentRef Id='ProgramMenuDir' />
+	  
     </Feature>
 	
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+	
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     <Icon Id="explorer_102.ico" SourceFile="explorer_102.ico" />
+	
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />  
+    <!-- these commented out items can configure WixUI_Mondo
+      <WixVariable Id="WixUIBannerBmp" Value="path\banner.bmp" />
+      <WixVariable Id="WixUIDialogBmp" Value="path\dialog.bmp" />
+      <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
+      <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
+      <WixVariable Id="WixUINewIco" Value="path\new.ico" />
+      <WixVariable Id="WixUIUpIco" Value="path\up.ico" /> -->
   </Product>
 </Wix>
